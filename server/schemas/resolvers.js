@@ -19,11 +19,11 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
-        throw new AuthenticationError("User not found, try again~")
+        throw new AuthenticationError("User not found")
       }
-      const correctPw = await user.isCorrectPassword(password);
-      if (!correctPw) {
-        throw new AuthenticationError("Wrong password, try again~")
+      const iscorrectPW = await user.isCorrectPassword(password);
+      if (!iscorrectPW) {
+        throw new AuthenticationError("Incorrect Password")
       } // assign JWT to user //
       const token = signToken(user);
       return { token, user };
@@ -32,7 +32,7 @@ const resolvers = {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       if (!user) {
-        throw new AuthenticationError("Something went wrong")
+        throw new AuthenticationError("Something went wrong!")
       }
       const token = signToken(user);
       return { token, user };
@@ -47,7 +47,7 @@ const resolvers = {
         );
         return updatedUser;
       }
-      throw new AuthenticationError("Not signed in, try again!")
+      throw new AuthenticationError("Please sign in and try again")
     },
     // mutation to remove a book given arguements and context //
     removeBook: async (parent, args, context) => {
@@ -59,7 +59,7 @@ const resolvers = {
         );
         return updatedUser;
       }
-      throw new AuthenticationError("Couldn't find user with this id!!")
+      throw new AuthenticationError("No user found with this id")
     }
 
   },

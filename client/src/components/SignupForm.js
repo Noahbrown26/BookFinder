@@ -8,46 +8,46 @@ import { useMutation } from '@apollo/react-hooks';
 import { ADD_USER } from '../utils/mutations';
 
 const SignupForm = () => {
- //usestate for registration form//
- const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
- const [validated] = useState(false);
- //usestate for modal alert given an input errror//
- const [showAlert, setShowAlert] = useState(false);
- //pass in mutation//
- const [addUser] = useMutation(ADD_USER);
- //update form usestate on user input//
- const handleInputChange = (event) => {
-   const { name, value } = event.target;
-   setUserFormData({ ...userFormData, [name]: value });
- };
+  //usestate for registration form//
+  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
+  const [validated] = useState(false);
+  //usestate for modal alert given an input errror//
+  const [showAlert, setShowAlert] = useState(false);
+  //pass in mutation//
+  const [addUser] = useMutation(ADD_USER);
+  //update form usestate on user input//
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setUserFormData({ ...userFormData, [name]: value });
+  };
 // form handling function //
- const handleFormSubmit = async (event) => {
-   event.preventDefault();
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
 //check if form inputs are valid//
-   const form = event.currentTarget;
-   if (form.checkValidity() === false) {
-     event.preventDefault();
-     event.stopPropagation();
-   }
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
 
-   try {
-     const {data}  = await addUser({
-       variables: { ...userFormData }
-     });
-     console.log(userFormData);
-     console.log(data);
-     Auth.login(data.addUser.token);
-   } catch (err) {
-     console.error(err);
-     setShowAlert(true);
-   }
+    try {
+      const {data}  = await addUser({
+        variables: { ...userFormData }
+      });
+      console.log(userFormData);
+      console.log(data);
+      Auth.login(data.addUser.token);
+    } catch (err) {
+      console.error(err);
+      setShowAlert(true);
+    }
 
-   setUserFormData({
-     username: '',
-     email: '',
-     password: '',
-   });
- };
+    setUserFormData({
+      username: '',
+      email: '',
+      password: '',
+    });
+  };
 
 
   return (

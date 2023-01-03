@@ -1,29 +1,36 @@
-const { User } = require('../models');
+const { User, Book } = require('../models');
 const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
 const resolvers = {
-  Query: { 
-    // query to get user //
+  Query: {
+    // query to find user //
     me: async (parent, args, context) => {
-      if (context.user) {
-        // find user by user id //
-        const userData = await User.findOne({ _id: context.user._id }).select("-__v -password")
-        return userData;
-      }
-      throw new AuthenticationError("Need to be logged in!")
-    },
-  },
+        if (context.user) {
+            const userData = await User.findOne({ _id: context.user._id })
+            .select('-__v -password')
+            return userData;
+        }
+        throw new AuthenticationError('Please login and try again');
+    }
+},
   Mutation: {
+    // mutation to add a user with jswt //
+    addUser: async (parent, args) => {
+      const user = await User.create(args);
+      const token = signToken(user);
+
+      return { token, user };
+  },
     // mutation to login user given an email and password //
     login: async (parent, { email, password }) => {
       const user = await User.findOne( { email });
       if (!user) {
-          throw new AuthenticationError('Incorrect credentials')
+          throw new AuthenticationError('Username or Password incorrect')
       }
       const correctPw = await user.isCorrectPassword(password);
       if(!correctPw) {
-          throw new AuthenticationError('Incorrect credentials')
+          throw new AuthenticationError('Username or Password incorrect')
       }
       const token = signToken(user);
       return { token, user };

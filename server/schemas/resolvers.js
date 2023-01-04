@@ -11,7 +11,7 @@ const resolvers = {
                 .select('-__v -password')
                 return userData;
             }
-            throw new AuthenticationError('Not logged in');
+            throw new AuthenticationError('Not logged in!');
         }
     },
     Mutation: {
@@ -26,11 +26,11 @@ const resolvers = {
         login: async (parent, { email, password }) => {
             const user = await User.findOne( { email });
             if (!user) {
-                throw new AuthenticationError('Incorrect credentials')
+                throw new AuthenticationError('Username or Password incorrect!')
             }
             const correctPw = await user.isCorrectPassword(password);
             if(!correctPw) {
-                throw new AuthenticationError('Incorrect credentials')
+                throw new AuthenticationError('Username or Password incorrect!')
             }
             const token = signToken(user);
             return { token, user };
@@ -45,7 +45,7 @@ const resolvers = {
                 )
                 return updatedUser;
             }
-            throw new AuthenticationError('You need to be logged in!')
+            throw new AuthenticationError('You must be logged in to save a book')
         },
         // mutation to remove a book //
         removeBook: async (parent, { bookId }, context) => {

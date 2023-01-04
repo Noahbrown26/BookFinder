@@ -6,8 +6,7 @@
 ## Description
 This is the final challenge for my Coding bootcamp journey. For this challenge, we had to follow acceptance criteria to refactor a restful api from starter code into a `GrapQL` api. This project utilizes `JSWT` for user authentication. `Apollo Server` & `Apollo Client` were used to connect the api from the server to the client. `React` was used for the front-end and `Mongo Atlas` was used for the database.
   
-TODO:
--fix errors on saved books page preventing dom from rendering
+TODO: fix errors on saved books page preventing dom from rendering
   
   
 ## Table of Contents

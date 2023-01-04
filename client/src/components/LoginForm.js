@@ -32,6 +32,7 @@ const LoginForm = () => {
       event.stopPropagation();
     }
 
+    // execute login mutation //
     try {
       const {data} = await login({
         variables:  {...userFormData }
@@ -42,6 +43,7 @@ const LoginForm = () => {
       setShowAlert(true);
     }
 
+    // clear form data //
     setUserFormData({
       username: '',
       email: '',

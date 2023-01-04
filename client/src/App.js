@@ -4,7 +4,7 @@ import SearchBooks from './pages/SearchBooks';
 import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
-//import apollo client library//
+//import apollo client library //
 import {
   ApolloClient,
   InMemoryCache,
@@ -13,15 +13,15 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-// set graphql endpoint//
+// set graphql endpoint //
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
+  // get the authentication token from local storage if it exists //
   const token = localStorage.getItem('id_token');
-  // return the headers to the context so httpLink can read them
+  // return the headers to the context so httpLink can read them //
   return {
     headers: {
       ...headers,
@@ -35,6 +35,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// wrap apollo provider around app //
 function App() {
   return (
     <ApolloProvider client={client}>
